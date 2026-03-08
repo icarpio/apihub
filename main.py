@@ -9,6 +9,14 @@ from dotenv import load_dotenv
 from ai_recipes.router import router as ai_recipes_router
 from city_history.router import router as city_history_router
 from guestbook.router import router as guestbook_router
+from english_teacher.router import router as english_teacher_router
+from companion.router import router as companion_router
+from aisha.router import router as aisha_router
+from polls.router import router as polls_router
+from story_generator.router import router as story_generator_router
+from travel_planner.router import router as travel_planner_router
+from insta_posts.router import router as insta_posts_router
+from news.router import router as news_router
 
 # Cargar variables de entorno
 load_dotenv()
@@ -29,7 +37,14 @@ app.add_middleware(
 app.include_router(ai_recipes_router)
 app.include_router(city_history_router)
 app.include_router(guestbook_router)
-
+app.include_router(english_teacher_router)
+app.include_router(companion_router)
+app.include_router(aisha_router)
+app.include_router(story_generator_router)
+app.include_router(polls_router)
+app.include_router(travel_planner_router)
+app.include_router(insta_posts_router)
+app.include_router(news_router)
 
 # ──────────────────────────────────────────────
 # Configuration
@@ -147,7 +162,7 @@ async def get_worldtime(city: str = "Madrid"):
         geo = await client.get(
             "https://nominatim.openstreetmap.org/search",
             params={"q": city, "format": "json", "limit": 1},
-            headers={"User-Agent": "api-ninjas-hub/1.0 (Melocot@n8)"},
+            headers={"User-Agent": "api-hub/1.0"},
             timeout=10.0
         )
         geo_data = geo.json()
@@ -239,6 +254,7 @@ async def get_random_image():
         r = await client.get(f"{BASE_URL}/randomimage",
                              headers=HEADERS)
         return {"image": r.text}
+    
 
 @app.get("/api/passwordgenerator")
 async def get_password(length: int = 16):
@@ -280,3 +296,5 @@ async def get_barcode(text: str, type: str = "upc"):
         )
         encoded = base64.b64encode(r.content).decode("utf-8")
         return {"image": encoded}
+
+
